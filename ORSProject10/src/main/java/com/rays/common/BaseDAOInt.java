@@ -1,0 +1,21 @@
+package com.rays.common;
+
+import java.util.List;
+
+public interface BaseDAOInt<T extends BaseDTO> {
+	
+	public long add(T dto,UserContext userContext);
+	
+	public void update(T dto,UserContext userContext);
+	
+	public void delete(T dto,UserContext userContext);
+	
+	public T findByPk(long pk,UserContext usercontext);
+	
+	public T findByUniqueKey(String attribute,Object val,UserContext userContext);
+	
+	public List search(T dto,int pageNo,int pageSize,UserContext userContext);
+	
+	public List search(T dto,UserContext userContext);
+
+}
