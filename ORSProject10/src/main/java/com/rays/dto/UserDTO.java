@@ -196,5 +196,10 @@ public class UserDTO extends BaseDTO {
 		return "User";
 	}
 
+	@Override
+	public String getValue() {
+		return null;
+	}
+
 }
 	

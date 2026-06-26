@@ -13,7 +13,7 @@ import com.rays.common.BaseDAOImpl;
 import com.rays.dto.RoleDTO;
 
 @Repository
-public class RoleDAOImpl extends BaseDAOImpl<RoleDTO> implements RoleDAOInt{
+public class RoleDAOImpl extends BaseDAOImpl<RoleDTO> implements RoleDAOInt {
 
 	@Override
 	public Class<RoleDTO> getDTOClass() {
@@ -22,17 +22,18 @@ public class RoleDAOImpl extends BaseDAOImpl<RoleDTO> implements RoleDAOInt{
 
 	@Override
 	protected List<Predicate> getWhereClause(RoleDTO dto, CriteriaBuilder builder, Root<RoleDTO> qRoot) {
-		
-		List<Predicate> whereCondition=new ArrayList<Predicate>();
-		
-		if(!isZeroNumber(dto.getId())) {
-			whereCondition.add(builder.equal(qRoot.get("id"),dto.getId()));
+
+		List<Predicate> whereCondition = new ArrayList<Predicate>();
+
+		if (dto.getId() != null && !isZeroNumber(dto.getId())) {
+
+			whereCondition.add(builder.equal(qRoot.get("id"), dto.getId()));
 		}
-		
-		if(!isEmptyString(dto.getName())) {
+
+		if (!isEmptyString(dto.getName())) {
 			whereCondition.add(builder.equal(qRoot.get("name"), dto.getName()));
 		}
-		return null;
+		return whereCondition;
 	}
 
 }

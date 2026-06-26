@@ -4,11 +4,13 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.rays.common.BaseDTO;
 import com.rays.common.BaseForm;
+import com.rays.dto.SubjectDTO;
 
 public class SubjectForm extends BaseForm{
 	
-	@NotNull(message="Course is required")
+	@NotNull(message="Course Id is required")
 	@Min(1)
 	private Long courseId=0L;
 	
@@ -52,5 +54,17 @@ public class SubjectForm extends BaseForm{
 		this.description = description;
 	}
 	
+	@Override
+	public BaseDTO getDto() {
+
+		SubjectDTO dto = initDTO(new SubjectDTO());
+
+		dto.setCourseId(courseId);
+		dto.setCourseName(courseName);
+		dto.setName(name);
+		dto.setDescription(description);
+
+		return dto;
+	}
 	
 }

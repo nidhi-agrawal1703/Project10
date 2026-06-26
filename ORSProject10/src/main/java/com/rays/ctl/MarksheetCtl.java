@@ -10,24 +10,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rays.common.BaseCtl;
 import com.rays.common.DropdownList;
 import com.rays.common.ORSResponse;
-import com.rays.dto.CourseDTO;
-import com.rays.dto.SubjectDTO;
-import com.rays.form.SubjectForm;
-import com.rays.service.CourseServiceInt;
-import com.rays.service.SubjectServiceInt;
+import com.rays.dto.MarksheetDTO;
+import com.rays.dto.StudentDTO;
+import com.rays.form.MarksheetForm;
+import com.rays.service.MarksheetServiceInt;
+import com.rays.service.StudentServiceInt;
 
 @RestController
-@RequestMapping(value="Subject")
-public class SubjectCtl extends BaseCtl<SubjectForm,SubjectDTO,SubjectServiceInt> {
-
+@RequestMapping(value="Marksheet")
+public class MarksheetCtl extends BaseCtl<MarksheetForm,MarksheetDTO,MarksheetServiceInt>{
+	
 	@Autowired
-	private CourseServiceInt courseService;
+	private StudentServiceInt studentService;
 	
 	@GetMapping("preload")
 	public ORSResponse preload() {
 		ORSResponse res=new ORSResponse(true);
-		List<DropdownList> courseList=courseService.search(new CourseDTO(), userContext);
-		res.addResult("courseList", courseList);
+		List<DropdownList> studentList=studentService.search(new StudentDTO(), userContext);
+		res.addResult("studentList", studentList);
 		return res;
 	}
 }

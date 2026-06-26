@@ -2,6 +2,8 @@ package com.rays.common;
 
 import java.util.List;
 
+import com.rays.exception.DatabaseException;
+
 public interface BaseServiceInt<T extends BaseDTO> {
 	
 	public long add(T dto,UserContext userContext);

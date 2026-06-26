@@ -40,7 +40,7 @@ public class RoleForm extends BaseForm {
 		RoleDTO dto=initDTO(new RoleDTO());
 		dto.setName(name);
 		dto.setDescription(description);
-		return super.getDto();
+		return dto;
 	}
 
 }

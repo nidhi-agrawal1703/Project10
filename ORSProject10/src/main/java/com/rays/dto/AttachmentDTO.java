@@ -104,6 +104,11 @@ public class AttachmentDTO extends BaseDTO{
 	public String getTableName() {
 		return null;
 	}
+
+	@Override
+	public String getValue() {
+		return null;
+	}
 	
 	
 	

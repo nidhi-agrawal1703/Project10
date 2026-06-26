@@ -64,9 +64,13 @@ public class UserDAOImpl extends BaseDAOImpl<UserDTO> implements UserDAOInt {
 		if(!isEmptyString(dto.getLoginId())) {
 			whereCondition.add(builder.like(qRoot.get("loginId"), dto.getLoginId()+"%"));
 		}
-		if(!isZeroNumber(dto.getRoleId())) {
+		if(dto.getRoleId()!=null) {
+			
+			if(!isZeroNumber(dto.getRoleId())) {
 			whereCondition.add(builder.equal(qRoot.get("roleId"), dto.getRoleId()));
 		}
+			}
+		
 		if(isNotNull(dto.getDob())) {
 			whereCondition.add(builder.equal(qRoot.get("dob"), dto.getDob()));
 		}	

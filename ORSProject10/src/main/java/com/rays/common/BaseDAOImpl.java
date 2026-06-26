@@ -16,27 +16,29 @@ public abstract class BaseDAOImpl<T extends BaseDTO> implements BaseDAOInt<T> {
 
 	@PersistenceContext
 	protected EntityManager entityManager;
-	
+
 	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager=entityManager;
+		this.entityManager = entityManager;
 	}
+
 	public abstract Class<T> getDTOClass();
-	
-	protected abstract List<Predicate> getWhereClause(T dto,CriteriaBuilder builder,Root<T> qRoot);
-	
-	protected void populate(T dto,UserContext userContext) {}
-		
+
+	protected abstract List<Predicate> getWhereClause(T dto, CriteriaBuilder builder, Root<T> qRoot);
+
+	protected void populate(T dto, UserContext userContext) {
+	}
+
 	@Override
 	public long add(T dto, UserContext userContext) {
 		dto.setCreatedBy(userContext.getLoginId());
 		dto.setCreatedDatetime(new Timestamp(new Date().getTime()));
 		dto.setModifiedBy(userContext.getLoginId());
 		dto.setModifiedDateTime(new Timestamp(new Date().getTime()));
-		
-		populate(dto,userContext);
-		
+
+		populate(dto, userContext);
+
 		entityManager.persist(dto);
-		
+
 		return dto.getId();
 	}
 
@@ -44,9 +46,9 @@ public abstract class BaseDAOImpl<T extends BaseDTO> implements BaseDAOInt<T> {
 	public void update(T dto, UserContext userContext) {
 		dto.setModifiedBy(userContext.getLoginId());
 		dto.setModifiedDateTime(new Timestamp(new Date().getTime()));
-		
-		populate(dto,userContext);
-		
+
+		populate(dto, userContext);
+
 		entityManager.merge(dto);
 	}
 
@@ -57,91 +59,92 @@ public abstract class BaseDAOImpl<T extends BaseDTO> implements BaseDAOInt<T> {
 
 	@Override
 	public T findByPk(long pk, UserContext userContext) {
-		T dto=entityManager.find(getDTOClass(), pk);
+		T dto = entityManager.find(getDTOClass(), pk);
 		return dto;
 	}
 
 	@Override
 	public T findByUniqueKey(String attribute, Object val, UserContext userContext) {
-		
-		Class<T> dtoClass=getDTOClass();
-		
-		CriteriaBuilder builder=entityManager.getCriteriaBuilder();
-		
-		CriteriaQuery<T> cq=builder.createQuery(dtoClass);
-		
-		Root<T> qRoot=cq.from(dtoClass);
-		
-		Predicate condition=builder.equal(qRoot.get(attribute), val);
-		
+
+		Class<T> dtoClass = getDTOClass();
+
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<T> cq = builder.createQuery(dtoClass);
+
+		Root<T> qRoot = cq.from(dtoClass);
+
+		Predicate condition = builder.equal(qRoot.get(attribute), val);
+
 		cq.where(condition);
-		
-		TypedQuery<T> query=entityManager.createQuery(cq);
-		
-		List<T> list=query.getResultList();
-		
-		T dto=null;
-		
-		if(list.size()>0) {
-			dto=list.get(0);
+
+		TypedQuery<T> query = entityManager.createQuery(cq);
+
+		List<T> list = query.getResultList();
+
+		T dto = null;
+
+		if (list.size() > 0) {
+			dto = list.get(0);
 		}
 		return dto;
-		
+
 	}
 
-	protected TypedQuery<T> createCriteria(T dto,UserContext userContext){
-		
-		CriteriaBuilder builder=entityManager.getCriteriaBuilder();
-		
-		CriteriaQuery<T> cq=builder.createQuery(getDTOClass());
-		
-		Root<T> qRoot=cq.from(getDTOClass());
+	protected TypedQuery<T> createCriteria(T dto, UserContext userContext) {
+
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+		CriteriaQuery<T> cq = builder.createQuery(getDTOClass());
+
+		Root<T> qRoot = cq.from(getDTOClass());
 		cq.select(qRoot);
-		
-		List<Predicate> whereClause=getWhereClause(dto, builder, qRoot);
-		
+
+		List<Predicate> whereClause = getWhereClause(dto, builder, qRoot);
+
 		cq.where(whereClause.toArray(new Predicate[whereClause.size()]));
-		
-		TypedQuery<T> query =entityManager.createQuery(cq);
-		
+
+		TypedQuery<T> query = entityManager.createQuery(cq);
+
 		return query;
 	}
-	
+
 	@Override
 	public List search(T dto, int pageNo, int pageSize, UserContext userContext) {
-		TypedQuery<T> query=createCriteria(dto,userContext);
-		
-		if(pageSize>0) {
-			query.setFirstResult(pageNo*pageSize);
+		TypedQuery<T> query = createCriteria(dto, userContext);
+
+		if (pageSize > 0) {
+			query.setFirstResult(pageNo * pageSize);
 			query.setMaxResults(pageSize);
 		}
-		
-		List list=query.getResultList();
+
+		List list = query.getResultList();
 		return list;
 	}
 
 	@Override
 	public List search(T dto, UserContext userContext) {
-		return search(dto,0,0,userContext);
+		return search(dto, 0, 0, userContext);
 	}
-	
+
 	protected boolean isEmptyString(String val) {
-		return val==null||val.trim().length()==0;
-		
+		return val == null || val.trim().length() == 0;
+
 	}
-	
+
 	protected boolean isZeroNumber(Double val) {
-		return val==null|val==0;
+		return val == null | val == 0;
 	}
+
 	protected boolean isZeroNumber(Long val) {
-		return val==null|val==0;
+		return val == null | val == 0;
 	}
+
 	protected boolean isZeroNumber(Integer val) {
-		return val==null|val==0;
+		return val == null | val == 0;
 	}
-	
+
 	protected boolean isNotNull(Object val) {
-		return val!=null;
+		return val != null;
 	}
 }
-

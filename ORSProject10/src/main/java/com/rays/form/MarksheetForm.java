@@ -1,33 +1,40 @@
-package com.rays.dto;
+package com.rays.form;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.rays.common.BaseDTO;
+import com.rays.common.BaseForm;
+import com.rays.dto.MarksheetDTO;
 
-@Entity
-@Table(name="st_marksheet")
-public class MarksheetDTO extends BaseDTO{
+public class MarksheetForm extends BaseForm {
 	
-	@Column(name="roll_no",length=50)
-	protected String rollNo;
+	@NotEmpty(message="Roll No is required")
+	protected String rollNo=null;
 	
-	@Column(name="student_id")
+	@NotNull(message="Student Id is required")
+	@Min(1)
 	protected Long studentId;
 	
-	@Column(name="name",length=100)
-	protected String name;
+	protected String name=null;
 	
-	@Column(name="physics")
+	@NotNull(message="Physics is required")
+	@Max(99)
+	@Min(1)
 	protected Integer physics;
 	
-	@Column(name="chemistry")
+	@NotNull(message="Chemistry is required")
+	@Max(99)
+	@Min(1)
 	protected Integer chemistry;
 	
-	@Column(name="maths")
+	@NotNull(message="Maths is required")
+	@Max(99)
+	@Min(1)
 	protected Integer maths;
-	
+
 	public String getRollNo() {
 		return rollNo;
 	}
@@ -75,29 +82,19 @@ public class MarksheetDTO extends BaseDTO{
 	public void setMaths(Integer maths) {
 		this.maths = maths;
 	}
-
+	
 	@Override
-	public String getUniqueKey() {
-		return "rollNo";
-	}
-
-	@Override
-	public String getUniqueValue() {
-		return rollNo;
-	}
-
-	@Override
-	public String getLabel() {
-		return "Roll No";
-	}
-
-	@Override
-	public String getTableName() {
-		return "Marksheet";
-	}
-
-	@Override
-	public String getValue() {
-		return name;
+	public BaseDTO getDto() {
+		
+		MarksheetDTO dto=initDTO(new MarksheetDTO());
+		
+		dto.setName(name);
+		dto.setRollNo(rollNo);
+		dto.setStudentId(studentId);
+		dto.setPhysics(physics);
+		dto.setChemistry(chemistry);
+		dto.setMaths(maths);
+		
+		return dto;
 	}
 }

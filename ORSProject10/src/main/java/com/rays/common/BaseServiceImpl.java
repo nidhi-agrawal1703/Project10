@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rays.exception.DatabaseException;
 import com.rays.exception.DuplicateRecordException;
 import com.rays.exception.RecordNotFoundException;
 
@@ -15,7 +16,7 @@ public class BaseServiceImpl<T extends BaseDTO,D extends BaseDAOInt<T>> implemen
 	protected D baseDao;
 	
 	@Transactional(readOnly = false)
-	public long add(T dto, UserContext userContext) throws DuplicateRecordException{
+	public long add(T dto, UserContext userContext) throws DuplicateRecordException,DatabaseException{
 		long pk = baseDao.add(dto, userContext);
 		return pk;
 	}
@@ -75,5 +76,5 @@ public class BaseServiceImpl<T extends BaseDTO,D extends BaseDAOInt<T>> implemen
 		return baseDao.search(dto,userContext);
 	}
 	
-
+	
 }

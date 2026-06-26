@@ -80,12 +80,8 @@ public abstract class BaseDTO implements DropdownList {
 
 	@Override
 	public String getKey() {
-		return null;
+		return String.valueOf(id);
 	}
 
-	@Override
-	public String getValue() {
-		return null;
-	}
-
+	
 }
