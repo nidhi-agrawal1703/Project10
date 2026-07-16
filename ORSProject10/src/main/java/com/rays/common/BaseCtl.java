@@ -95,8 +95,11 @@ public class BaseCtl<F extends BaseForm, T extends BaseDTO, S extends BaseServic
 						return res;
 					}
 				}
-				baseService.add(dto, userContext);
+				long id=baseService.add(dto, userContext);
+				
 				res.addMessage(dto.getTableName() + " added successfully..!!");
+				res.addData(id);
+				
 			}
 		} catch (Exception e) {
 			res.setSuccess(false);
