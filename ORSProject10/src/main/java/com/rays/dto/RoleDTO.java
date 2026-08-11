@@ -44,7 +44,7 @@ public class RoleDTO extends BaseDTO {
 
 	@Override
 	public String getLabel() {
-		return "Name";
+		return "Role";
 	}
 
 	@Override

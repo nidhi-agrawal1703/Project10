@@ -34,11 +34,13 @@ public class ApplicationExceptionHandlerCtl {
 		//All Other Runtime Exception
 		@ExceptionHandler(RuntimeException.class)
 		public ResponseEntity<ORSResponse> handleRuntimeException(Exception e){
+			e.printStackTrace(); // Print the actual exception
+
 			
 			ORSResponse res=new ORSResponse(false);
-			res.addMessage(e.getMessage());
+		res.addMessage(e.getMessage());
 			return ResponseEntity
 	                .status(HttpStatus.INTERNAL_SERVER_ERROR) // 500
-	                .body(res);
+	               .body(res);
 		}
 }
