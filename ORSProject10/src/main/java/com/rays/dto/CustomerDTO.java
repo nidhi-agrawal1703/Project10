@@ -72,7 +72,7 @@ public class CustomerDTO extends BaseDTO {
 
 	@Override
 	public String getLabel() {
-		return "name";
+		return name;
 	}
 
 	@Override
